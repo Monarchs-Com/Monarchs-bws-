@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MONARCHS COMMUNITY</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #030303;
+            --card-bg: #121212;
+            --red-accent: #e60000;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --input-bg: #090909;
+            --input-border: #1f1f1f;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 20px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .header-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+
+        /* Top Action Buttons */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            margin-bottom: 12px;
+            cursor: pointer;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-discord { background-color: #5865F2; }
+        .btn-telegram { background-color: #0088cc; }
+        .btn-curators { background-color: #333333; }
+        .btn-red { background-color: var(--red-accent); margin-bottom: 12px; }
+
+        .divider {
+            border: 0;
+            height: 2px;
+            background-color: var(--red-accent);
+            margin: 25px 0;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            border-top: 3px solid var(--red-accent);
+            padding: 25px 20px;
+            margin-bottom: 25px;
+            box-sizing: border-box;
+        }
+
+        .card-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .card-divider {
+            border-bottom: 1px solid #222;
+            margin-bottom: 25px;
+            margin-top: -10px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text-main);
+            padding: 12px;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #444;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 25px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            appearance: none;
+            background-color: #fff;
+            margin: 0;
+            font: inherit;
+            color: currentColor;
+            width: 20px;
+            height: 20px;
+            border: none;
+            border-radius: 3px;
+            display: grid;
+            place-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .checkbox-group input[type="checkbox"]::before {
+            content: "";
+            width: 12px;
+            height: 12px;
+            transform: scale(0);
+            transition: 120ms transform ease-in-out;
+            box-shadow: inset 1em 1em var(--red-accent);
+            transform-origin: center;
+            clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+
+        .checkbox-group input[type="checkbox"]:checked::before {
+            transform: scale(1);
+        }
+
+        .checkbox-text {
+            font-size: 13px;
+            color: #d0d0d0;
+            line-height: 1.4;
+        }
+
+        .info-text {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 20px;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .info-box {
+            background-color: #1a1a1a;
+            border-left: 3px solid var(--red-accent);
+            padding: 12px 15px;
+            font-size: 13px;
+            color: #e0e0e0;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Overlay / Disabled State */
+        .card-disabled {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(8, 8, 8, 0.75);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .overlay-icon {
+            font-size: 40px;
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .overlay-text {
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .blurred-content {
+            opacity: 0.3;
+            filter: blur(2px);
+            pointer-events: none;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="header-title">
+        SUBMITTING APPLICATIONS TO THE<br>MONARCHS COMMUNITY
+    </div>
+
+    <!-- Top Links -->
+    <a href="#" class="btn btn-discord"><i class="fa-brands fa-discord"></i> DISCORD CHANNEL MONARCHS</a>
+    <a href="#" class="btn btn-telegram"><i class="fa-brands fa-telegram"></i> TELEGRAM CHANNEL MONARCHS</a>
+    <a href="#" class="btn btn-curators"><i class="fa-solid fa-users"></i> APPLICATION CURATORS</a>
+
+    <hr class="divider">
+
+    <button class="btn btn-red">CLAN RULES</button>
+    <button class="btn btn-red">MEDIA RULES</button>
+    <button class="btn btn-red">EMERGENCY REGULATIONS</button>
+
+    <!-- CLAN REGISTRATION -->
+    <div class="card">
+        <h2 class="card-title">CLAN REGISTRATION</h2>
+        <div class="card-divider"></div>
+        
+        <div class="form-group">
+            <label>1. Clan name:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>2. Founder:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>3. Deputy:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>4. Are there any players in the clan who are on the blacklist? Yes/No</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>5. Communication:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>6. Server link:</label>
+            <input type="text">
+        </div>
+
+        <label class="checkbox-group">
+            <input type="checkbox">
+            <span class="checkbox-text">I agree with the community rules and am responsible for the players.</span>
+        </label>
+
+        <button class="btn btn-red" style="margin-bottom: 0;">SUBMIT AN APPLICATION</button>
+    </div>
+
+    <!-- ROLE MEDIA -->
+    <div class="card">
+        <h2 class="card-title">ROLE MEDIA</h2>
+        <div class="card-divider"></div>
+
+        <div class="form-group">
+            <label>1. Discord tag:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>2. Channel link:</label>
+            <input type="text">
+        </div>
+
+        <label class="checkbox-group">
+            <input type="checkbox">
+            <span class="checkbox-text">Will you include a link to the Monarchs Community Discord channel in the pinned comments below the video?</span>
+        </label>
+
+        <div class="info-text">
+            The server management decides whether to grant you this role or not.
+        </div>
+
+        <button class="btn btn-red" style="margin-bottom: 0;">REQUEST A ROLE</button>
+    </div>
+
+    <!-- BLACKLIST -->
+    <div class="card">
+        <h2 class="card-title">BLACKLIST</h2>
+        <div class="card-divider"></div>
+
+        <div class="form-group">
+            <label>1. Your tag:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>2. Violator (Tag and Nick):</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>3. Evidence (at least 3 screenshots):</label>
+            <textarea placeholder="Yapx/Imgur links"></textarea>
+        </div>
+
+        <button class="btn btn-red" style="margin-bottom: 0; margin-top: 10px;">ADD TO BLACKLIST</button>
+    </div>
+
+    <!-- APPLICATION FOR PR ASSISTANT -->
+    <div class="card">
+        <h2 class="card-title">APPLICATION FOR PR ASSISTANT</h2>
+        <div class="card-divider"></div>
+
+        <div class="info-box">
+            When responding, please be as detailed as possible.<br>
+            Review dates are set by management. Try to answer<br>
+            truthfully; we need worthy people.
+        </div>
+
+        <div class="form-group">
+            <label>1. Your Discord tag:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>2. Your experience in the following positions:</label>
+            <textarea></textarea>
+        </div>
+        <div class="form-group">
+            <label>3. Your age:</label>
+            <input type="text">
+        </div>
+        <div class="form-group">
+            <label>4. Will you be able to invite people? How?</label>
+            <textarea></textarea>
+        </div>
+        <div class="form-group">
+            <label>5. Your skills and abilities:</label>
+            <textarea></textarea>
+        </div>
+        <div class="form-group">
+            <label>6. Tell us about yourself:</label>
+            <textarea></textarea>
+        </div>
+
+        <button class="btn btn-red" style="margin-bottom: 0; margin-top: 10px;">SUBMIT AN APPLICATION</button>
+    </div>
+
+    <!-- STAFF APPLICATION (DISABLED) -->
+    <div class="card card-disabled">
+        <div class="overlay">
+            <i class="fa-solid fa-lock overlay-icon"></i>
+            <div class="overlay-text">RECEPTION IS CLOSED</div>
+        </div>
+
+        <div class="blurred-content">
+            <h2 class="card-title">STAFF APPLICATION</h2>
+            <div class="card-divider"></div>
+
+            <div class="info-box">
+                When responding, please be as detailed as possible.<br>
+                Review dates are set by management. Try to answer<br>
+                truthfully; we need worthy people.
+            </div>
+
+            <div class="form-group">
+                <label>1. Nickname:</label>
+                <input type="text" disabled>
+            </div>
+            <div class="form-group">
+                <label>2. Contacts (Discord/Telegram):</label>
+                <input type="text" disabled>
+            </div>
+            <div class="form-group">
+                <label>3. Experience in positions:</label>
+                <textarea disabled></textarea>
+            </div>
+            <div class="form-group">
+                <label>4. Administration experience:</label>
+                <textarea disabled></textarea>
+            </div>
+            <div class="form-group">
+                <label>5. Age:</label>
+                <input type="text" disabled>
+            </div>
+            <div class="form-group">
+                <label>6. Skills/abilities:</label>
+                <textarea disabled></textarea>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
